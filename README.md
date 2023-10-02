@@ -7,6 +7,7 @@ The application enables users to
 - review the order information
 - edit user and/or shopping cart info
 - calculate pickup time.
+- export order to json file
 
 # Requirements 
 - The user needs to input either the id or name of the item to put it in the order.
