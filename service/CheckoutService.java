@@ -12,9 +12,9 @@ import java.util.Date;
 import java.util.Scanner;
 
 public class CheckoutService {
-    private Scanner scanner;
-    private OrderService orderService;
-    private UserService userService;
+    private final Scanner scanner;
+    private final OrderService orderService;
+    private final UserService userService;
 
     // Constructor for CheckoutService
     public CheckoutService() {
@@ -53,13 +53,15 @@ public class CheckoutService {
         String input2 = scanner.nextLine();
         if (input2.equals("y")) {
             orderService.ChooseFromMenu(order);
+            pickupTime = PickupTimeCalculator.CalculatePickupTime(order);
+            order.setPickupTime(pickupTime.format(formatter));
         }
 
         // Finalize the order and export it as JSON
         printOrder(order.getUser(), order);
         System.out.println("You are now ready to order. Press any button to continue. Your order will be exported as JSON.");
         scanner.nextLine();
-        jsonService.fileWriter(order);
+        JsonService.fileWriter(order);
         System.exit(0);
     }
 
@@ -96,7 +98,7 @@ public class CheckoutService {
             String formattedId = String.format("%-6s", "(" + o.getItem().getProductID() + ")");
             String formattedName = String.format("%-30s", o.getItem().getProductName());
             String formattedQuantity = String.format("%-10s", o.getQuantity());
-            System.out.println(formattedId + " " + formattedName  + formattedQuantity);
+            System.out.println(formattedId + " " + formattedName + formattedQuantity);
         });
     }
 

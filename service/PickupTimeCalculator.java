@@ -1,15 +1,18 @@
 package service;
-import pojo.*;
 
-import java.time.*;
-import java.time.format.DateTimeFormatter;
+import pojo.Order;
+import pojo.WorkWeek;
+
+import java.time.DayOfWeek;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 public class PickupTimeCalculator {
 
     // Method to calculate the pickup time based on order production time and queue time
     public static LocalDateTime CalculatePickupTime(Order order) {
         // Calculate the total production time including queue time
-        int productionTime = CalculateProductionTime(order, jsonService.fileReader());
+        int productionTime = CalculateProductionTime(order, JsonService.fileReader());
 
         // Read the opening hours of the shop
         WorkWeek workWeek = csvLoader.LoadCSV.readOpeningHours();
@@ -30,14 +33,15 @@ public class PickupTimeCalculator {
         int openingTime = workWeek.getCurrentDayOpeningTime(today);
 
         // Loop to calculate the pickup time
-        outerLoop: while (productionTime != 0) {
+        outerLoop:
+        while (productionTime != 0) {
             days++;
             while (hourCount >= openingTime && hourCount < closingTime) {
                 hourCount++;
                 productionTime--;
                 if (productionTime == 0) {
                     break outerLoop;
-                };
+                }
             }
             today = today.plus(1);
             hourCount = workWeek.getCurrentDayOpeningTime(today);
@@ -48,11 +52,8 @@ public class PickupTimeCalculator {
         while (day.getHour() >= workWeek.getCurrentDayClosingTime(day.getDayOfWeek()) || day.getHour() < workWeek.getCurrentDayOpeningTime(day.getDayOfWeek())) {
             day = day.plusHours(1);
         }
-
-        // Format the pickup time and return it
         return day;
-//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
-//        return day.format(formatter);
+
     }
 
     // Method to calculate the total production time for an order

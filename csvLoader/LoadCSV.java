@@ -18,7 +18,7 @@ public class LoadCSV {
 
     public static ProductCatalog readItemsFromCSV() {
         ProductCatalog items = new ProductCatalog();
-        String fileName = "csv data/PhotoShop_PriceList.csv";
+        String fileName = "csvData/PhotoShop_PriceList.csv";
         Path pathToFile = Paths.get(fileName);
         try (BufferedReader br = Files.newBufferedReader(pathToFile, StandardCharsets.US_ASCII)) {
             String line = br.readLine();
@@ -42,9 +42,10 @@ public class LoadCSV {
         LocalTime productionTime = LocalTime.parse(attributes[3]);
         return new Item(productID, productName, price, productionTime);
     }
+
     public static WorkWeek readOpeningHours() {
         WorkWeek workWeek = new WorkWeek();
-        String fileName = "csv data/PhotoShop_OpeningHours.csv";
+        String fileName = "csvData/PhotoShop_OpeningHours.csv";
         Path pathToFile = Paths.get(fileName);
         try (BufferedReader br = Files.newBufferedReader(pathToFile, StandardCharsets.US_ASCII)) {
             String line = br.readLine();
@@ -65,7 +66,7 @@ public class LoadCSV {
     public static OpeningHours createOpeningHours(String[] attributes) {
         String weekday = (attributes[1]);
         LocalTime openingTime = LocalTime.parse(attributes[2]);
-        LocalTime closingTime= LocalTime.parse(attributes[3]);
+        LocalTime closingTime = LocalTime.parse(attributes[3]);
         return new OpeningHours(weekday, openingTime, closingTime);
     }
 

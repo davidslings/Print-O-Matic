@@ -1,8 +1,5 @@
 package pojo;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class Order {
@@ -20,21 +17,7 @@ public class Order {
         this.productionTime = productionTime;
         this.user = user;
     }
-    
-    public Order(Order source) {
-        this.orderItems = source.orderItems;
-        this.pickupTime = source.pickupTime;
-        this.orderTime = source.orderTime;
-        this.productionTime = source.productionTime;
-        this.user = source.user;
-    }
 
-    public Order() {
-        this.orderItems = new ArrayList<>();
-        this.pickupTime = null;
-        this.orderTime = null;
-        this.productionTime = 0;
-    }
 
     public List<OrderQuant> getOrderItems() {
         return orderItems;
@@ -43,6 +26,7 @@ public class Order {
     public void addOrderItem(OrderQuant orderQuant) {
         orderItems.add(new OrderQuant(orderQuant));
     }
+
     public void removeOrderItem(OrderQuant orderQuant) {
         orderItems.remove(orderQuant);
     }

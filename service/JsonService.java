@@ -12,10 +12,10 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalTime;
 
-public class jsonService {
+public class JsonService {
 
     // Method to write an Order object to a JSON file
-    public static void fileWriter(Order order)  {
+    public static void fileWriter(Order order) {
         // Create a GsonBuilder with a custom type adapter for LocalTime
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.registerTypeAdapter(LocalTime.class, new LocalTimeTypeAdapter());
@@ -70,42 +70,4 @@ public class jsonService {
     }
 
 
-
-//    public static Order fileReader2(String email) {
-//        // Create a GsonBuilder with a custom type adapter for LocalTime
-//        GsonBuilder gsonBuilder = new GsonBuilder();
-//        gsonBuilder.registerTypeAdapter(LocalTime.class, new LocalTimeTypeAdapter());
-//        Gson gson = gsonBuilder.create();
-//
-//        // Specify the directory where JSON files are located
-//        Path fileDirectory = Paths.get("files");
-//        int productionTime = 0;
-//        Order oldOrder = new Order();
-//        try {
-//            // Use Files.newDirectoryStream to get a list of JSON files in the directory
-//            DirectoryStream<Path> directoryStream = Files.newDirectoryStream(fileDirectory, "*.json");
-//            boolean userExists = false;
-//            // Iterate through each JSON file
-//            for (Path filePath : directoryStream) {
-//                try {
-//                    // Read the JSON file into a string
-//                    String jsonContent = new String(Files.readAllBytes(filePath));
-//
-//                    // Deserialize the JSON content into an Order object
-//                    oldOrder = gson.fromJson(jsonContent, Order.class);
-//
-//                    // Update production time by adding the production time of the old order
-//                    if (email.equals(oldOrder.getEmail())) return oldOrder;
-//
-//
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//
-//
-//    }
 }

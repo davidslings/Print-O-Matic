@@ -8,17 +8,12 @@ import java.util.Scanner;
 
 public class UserService {
 
-    private Map<Integer, User> userDatabase;
     private Scanner scanner;
 
     public UserService() {
-        this.userDatabase = new HashMap<>();
         this.scanner = new Scanner(System.in);
     }
 
-    public Map<Integer, User> getUserDatabase() {
-        return userDatabase;
-    }
 
     // Method to create or update users with input validation.
     public User createUser(User user) {
@@ -29,7 +24,8 @@ public class UserService {
         while (firstName.isBlank() || firstName.isEmpty() || firstName.matches("\\d+")) {
             System.out.println("Name cannot be blank, null or contain numbers.");
             firstName = scanner.nextLine();
-        } user.setFirstName(firstName);
+        }
+        user.setFirstName(firstName);
 
         System.out.println("Please insert your last name:");
         String lastName = scanner.nextLine();
@@ -46,7 +42,8 @@ public class UserService {
                 System.out.println("Address cannot be blank or null.");
                 addressLine1 = scanner.nextLine();
             }
-        } user.setAddressLine1(addressLine1);
+        }
+        user.setAddressLine1(addressLine1);
 
         System.out.println("Please insert your zip code and city of residence:");
         String addressLine2 = scanner.nextLine();
@@ -55,7 +52,8 @@ public class UserService {
                 System.out.println("Address cannot be blank or null.");
                 addressLine2 = scanner.nextLine();
             }
-        } user.setAddressLine2(addressLine2);
+        }
+        user.setAddressLine2(addressLine2);
 
         System.out.println("Please insert your email:");
         String email = scanner.nextLine();
@@ -64,7 +62,8 @@ public class UserService {
                 System.out.println("Your email cannot be blank or null and must contain the '@' character.");
                 email = scanner.nextLine();
             }
-        } user.setEmail(email);
+        }
+        user.setEmail(email);
 
         System.out.println("Please insert your phone number:");
         String phoneNumber = scanner.nextLine();
@@ -75,17 +74,6 @@ public class UserService {
         user.setPhoneNumber(phoneNumber);
 
         return user;
-    }
-
-    public User retrieveUser(int userID) {
-        return new User(userDatabase.get(userID));
-    }
-
-    public void updateUser(User user) {
-        userDatabase.put(user.getUserID(), user);
-    }
-    public void removeUser(User user) {
-        this.userDatabase.remove(user.getUserID());
     }
 
 

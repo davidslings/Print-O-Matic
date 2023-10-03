@@ -8,6 +8,7 @@ public class OrderQuant {
         this.quantity = quantity;
         this.item = item;
     }
+
     public OrderQuant(OrderQuant source) {
         this.quantity = source.quantity;
         this.item = source.item;
@@ -25,9 +26,6 @@ public class OrderQuant {
         return item;
     }
 
-    public void setItem(Item item) {
-        this.item = new Item(item);
-    }
 
 
 }

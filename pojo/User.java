@@ -1,4 +1,5 @@
 package pojo;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import service.LocalTimeTypeAdapter;
@@ -9,10 +10,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalTime;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class User {
-    
+
     private String firstName;
     private String lastName;
     private String addressLine1;
@@ -21,15 +21,6 @@ public class User {
     private String phoneNumber;
     private int userID;
 
-    public User(String firstName, String lastName, String addressLine1, String addressLine2, String email, String phoneNumber) {
-        setFirstName(firstName);;
-        setLastName(lastName);
-        setAddressLine1(addressLine1);
-        setAddressLine2(addressLine2);
-        setEmail(email);
-        setPhoneNumber(phoneNumber);
-        this.userID = checkUserCount();
-    }
 
     public User() {
         this.firstName = null;
@@ -52,12 +43,12 @@ public class User {
     }
 
     public String getFirstName() {
-        
+
         return this.firstName;
     }
 
     public void setFirstName(String firstName) {
-            this.firstName = firstName;
+        this.firstName = firstName;
     }
 
     public String getLastName() {
@@ -109,10 +100,6 @@ public class User {
     }
 
     public static int checkUserCount() {
-        // Create a GsonBuilder with a custom type adapter for LocalTime
-        GsonBuilder gsonBuilder = new GsonBuilder();
-        gsonBuilder.registerTypeAdapter(LocalTime.class, new LocalTimeTypeAdapter());
-        Gson gson = gsonBuilder.create();
 
         // Specify the directory where JSON files are located
         Path fileDirectory = Paths.get("files");
@@ -123,23 +110,12 @@ public class User {
             DirectoryStream<Path> directoryStream = Files.newDirectoryStream(fileDirectory, "*.json");
             // Iterate through each JSON file
             for (Path filePath : directoryStream) {
-                try {
-                    // Read the JSON file into a string
-                    String jsonContent = new String(Files.readAllBytes(filePath));
-
-                    // Deserialize the JSON content into an Order object
-
-                    // Update production time by adding the production time of the old order
-                    userCount ++;
-
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                    userCount++;
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return userCount+1;
+        return userCount + 1;
     }
-    
+
 }

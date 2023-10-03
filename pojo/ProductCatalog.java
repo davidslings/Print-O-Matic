@@ -1,10 +1,11 @@
 package pojo;
+
 import java.util.HashMap;
 import java.util.Map;
 
 public class ProductCatalog {
-    
-    private HashMap<Integer, Item> products;
+
+    private final HashMap<Integer, Item> products;
 
     public ProductCatalog() {
         this.products = new HashMap<>();
@@ -18,6 +19,7 @@ public class ProductCatalog {
     public Map<Integer, Item> getProductCatalog() {
         return products;
     }
+
     public void addProduct(Item item) {
         products.put(item.getProductID(), item);
     }
@@ -27,7 +29,4 @@ public class ProductCatalog {
         return new Item(products.get(productID));
     }
 
-    public void setProduct(Item item) {
-        this.products.put(item.getProductID(), item);
-    }
 }

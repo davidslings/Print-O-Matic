@@ -16,9 +16,7 @@ public class WorkWeek {
         return openingTimes;
     }
 
-    public OpeningHours getOpeningHours(OpeningHours source) {
-        return new OpeningHours(source);
-    }
+
     public int getCurrentDayOpeningTime(DayOfWeek dayOfWeek) {
         for (int i = 0; i < getOpeningTimes().size(); i++) {
             if (dayOfWeek.toString().equals(getOpeningTimes().get(i).getWeekday().toUpperCase())) {
@@ -27,6 +25,7 @@ public class WorkWeek {
         }
         return 0;
     }
+
     public int getCurrentDayClosingTime(DayOfWeek dayOfWeek) {
         for (int i = 0; i < getOpeningTimes().size(); i++) {
             if (dayOfWeek.toString().equals(getOpeningTimes().get(i).getWeekday().toUpperCase())) {

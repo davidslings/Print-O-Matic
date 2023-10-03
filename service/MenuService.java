@@ -6,14 +6,12 @@ import pojo.ProductCatalog;
 import pojo.User;
 
 import java.util.ArrayList;
-import java.util.Scanner;
 
 
 public class MenuService {
-    private UserService userService;
-    private OrderService orderService;
-    private Scanner scanner;
-    private CheckoutService checkoutService;
+    private final UserService userService;
+    private final OrderService orderService;
+    private final CheckoutService checkoutService;
 
 
     // Constructor for MenuService
@@ -21,14 +19,13 @@ public class MenuService {
         // Initialize various services and components
         this.userService = new UserService();
         this.orderService = new OrderService();
-        this.scanner = new Scanner(System.in);
         this.checkoutService = new CheckoutService();
     }
 
     // Method to display an introduction message
     public void displayIntroduction() {
         System.out.println("Welcome to Dunder Mifflin, the automatic PrintStore designed to accommodate you in all your needs.\nFirst, please answer the following questions.\n");
-        User currentUser =  new User();
+        User currentUser = new User();
 
         Order order = new Order(new ArrayList<>(), null, null, 0, userService.createUser(currentUser));
         printCatalog();
