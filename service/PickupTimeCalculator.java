@@ -12,7 +12,7 @@ public class PickupTimeCalculator {
     // Method to calculate the pickup time based on order production time and queue time
     public static LocalDateTime CalculatePickupTime(Order order) {
         // Calculate the total production time including queue time
-        int productionTime = CalculateProductionTime(order, JsonService.fileReader());
+        int productionTime = CalculateProductionTime(order);
 
         // Read the opening hours of the shop
         WorkWeek workWeek = csvLoader.LoadCSV.readOpeningHours();
@@ -44,22 +44,26 @@ public class PickupTimeCalculator {
                 }
             }
             today = today.plus(1);
+            closingTime = workWeek.getCurrentDayClosingTime(today);
+            openingTime = workWeek.getCurrentDayOpeningTime(today);
             hourCount = workWeek.getCurrentDayOpeningTime(today);
         }
 
         // Calculate the exact pickup date and time
-        LocalDateTime day = LocalDateTime.now().plusDays(days).plusHours(hourCount);
-        while (day.getHour() >= workWeek.getCurrentDayClosingTime(day.getDayOfWeek()) || day.getHour() < workWeek.getCurrentDayOpeningTime(day.getDayOfWeek())) {
-            day = day.plusHours(1);
-        }
-        return day;
+        LocalDateTime oldDate = JsonService.pickupTimeReader();
+        LocalDateTime day = JsonService.pickupTimeReader() == null ? LocalDateTime.now() : oldDate;
 
+        day = day.plusDays(days).plusHours(hourCount);
+            while (day.getHour() >= workWeek.getCurrentDayClosingTime(day.getDayOfWeek()) || day.getHour() < workWeek.getCurrentDayOpeningTime(day.getDayOfWeek())) {
+                day = day.plusHours(1);
+            }
+            return day;
     }
 
     // Method to calculate the total production time for an order
-    public static int CalculateProductionTime(Order order, int queueTime) {
+    public static int CalculateProductionTime(Order order) {
         // Initialize the total production time with queue time
-        int totalProductionTime = queueTime;
+        int totalProductionTime = 0;
         for (int i = 0; i < order.getOrderItems().size(); i++) {
             // Calculate the production time for each item and quantity
             int productionTime = order.getOrderItems().get(i).getItem().getProductionTime().getHour();

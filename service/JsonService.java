@@ -4,13 +4,14 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import pojo.Order;
 
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
 public class JsonService {
 
@@ -31,42 +32,51 @@ public class JsonService {
         } catch (IOException e) {
             System.out.println(e);
         }
-    }
 
-    // Method to read and process JSON files in a directory
-    public static int fileReader() {
-        // Create a GsonBuilder with a custom type adapter for LocalTime
-        GsonBuilder gsonBuilder = new GsonBuilder();
-        gsonBuilder.registerTypeAdapter(LocalTime.class, new LocalTimeTypeAdapter());
-        Gson gson = gsonBuilder.create();
-
-        // Specify the directory where JSON files are located
-        Path fileDirectory = Paths.get("files");
-        int productionTime = 0;
+        Gson newGson = new Gson();
+        String pickupTimeToJson = newGson.toJson(order.getPickupTime());
 
         try {
-            // Use Files.newDirectoryStream to get a list of JSON files in the directory
-            DirectoryStream<Path> directoryStream = Files.newDirectoryStream(fileDirectory, "*.json");
-            // Iterate through each JSON file
-            for (Path filePath : directoryStream) {
-                try {
-                    // Read the JSON file into a string
-                    String jsonContent = new String(Files.readAllBytes(filePath));
+            // Create a FileWriter and write the JSON content to a file with a name based on the order time
+            FileWriter fileWriter = new FileWriter("files/pickupTime.json");
+            fileWriter.write(pickupTimeToJson);
+            fileWriter.close();
+        } catch (IOException e) {
+            System.out.println(e);
+        }
 
-                    // Deserialize the JSON content into an Order object
-                    Order oldOrder = gson.fromJson(jsonContent, Order.class);
+    }
 
-                    // Update production time by adding the production time of the old order
-                    productionTime += oldOrder.getProductionTime();
+    public static LocalDateTime pickupTimeReader() {
+        String filePath = "files/pickupTime.json";
 
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
+        try {
+            // Open the file for reading using FileReader and wrap it in a BufferedReader for efficiency
+            FileReader fileReader = new FileReader(filePath);
+            BufferedReader bufferedReader = new BufferedReader(fileReader);
+
+            // Read the JSON string from the file
+            String jsonString = bufferedReader.readLine().substring(1,17);
+            String[] strArray = jsonString.split(" ");
+            String finalString = strArray[0] + "T" +strArray[1] + ":00";
+
+            // Define the format of the input string
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy'T'HH:mm:ss");
+
+            // Parse the string into a LocalDateTime object using the formatter
+            LocalDateTime localDateTime = LocalDateTime.parse(finalString, formatter);
+
+            // Close the BufferedReader and FileReader
+            bufferedReader.close();
+            fileReader.close();
+
+            return localDateTime;
         } catch (IOException e) {
             e.printStackTrace();
+            // Handle the exception appropriately
         }
-        return productionTime;
+
+        return null;
     }
 
 

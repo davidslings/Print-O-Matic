@@ -18,7 +18,7 @@ public class CheckoutService {
 
     // Constructor for CheckoutService
     public CheckoutService() {
-        // Initialize the scanner and OrderService
+        // Initialize the scanner and Service classes
         this.scanner = new Scanner(System.in);
         this.orderService = new OrderService();
         this.userService = new UserService();
@@ -72,7 +72,7 @@ public class CheckoutService {
         System.out.println("----------------------------------------------------------------");
         System.out.println("Order information: ");
         System.out.println("Order time: " + order.getOrderTime());
-        System.out.println("ID  |  Product name               | Amount      ");
+
         printBasket(order);
 
         System.out.println("Earliest pickup time (depending on availability of the printer): " + order.getPickupTime());
@@ -93,7 +93,10 @@ public class CheckoutService {
         return dateFormat.format(date);
     }
 
+
+
     public void printBasket(Order order) {
+        System.out.println("ID  |  Product name               | Amount      ");
         order.getOrderItems().forEach(o -> {
             String formattedId = String.format("%-6s", "(" + o.getItem().getProductID() + ")");
             String formattedName = String.format("%-30s", o.getItem().getProductName());

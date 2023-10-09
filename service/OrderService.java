@@ -82,11 +82,7 @@ public class OrderService {
 
 
     public int itemValidator() {
-        while (!scanner.hasNextInt()) {
-            System.out.println("Please enter a number");
-            scanner.next();
-        }
-        int number = scanner.nextInt();
+        int number = hasNextInt();
         while (!(number > 0 && number <= 12)) {
             System.out.println("Please enter a number between 1 and 12");
             number = scanner.nextInt();
@@ -95,16 +91,18 @@ public class OrderService {
     }
 
     public int amountValidator() {
-        while (!scanner.hasNextInt()) {
-            System.out.println("Please enter a number");
-            scanner.next();
-        }
-        int number = scanner.nextInt();
+        int number = hasNextInt();
         while (!(number > 0 && number <= 100)) {
             System.out.println("Please enter a number between 1 and 100");
             number = scanner.nextInt();
         }
         return number;
     }
-
+    public int hasNextInt() {
+        while (!scanner.hasNextInt()) {
+            System.out.println("Please enter a number");
+            scanner.next();
+        }
+        return scanner.nextInt();
+    }
 }
