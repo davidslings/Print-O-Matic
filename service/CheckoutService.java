@@ -36,7 +36,8 @@ public class CheckoutService {
         order.setPickupTime(pickupTime.format(formatter));
 
         // Print the order details
-        printOrder(order.getUser(), order);
+        printUser(order.getUser(), order);
+        printOrder(order);
 
         // Prompt the user to edit their user information
         System.out.println("Do you want to edit the user information? y/n");
@@ -45,35 +46,45 @@ public class CheckoutService {
             // Update user information if desired
             order.setUser(userService.createUser(order.getUser()));
             // Print the updated order details
-            printOrder(order.getUser(), order);
+            printUser(order.getUser(), order);
+            printOrder(order);
         }
 
         // Prompt the user to edit their order
         System.out.println("Do you want to edit your order? y/n");
         String input2 = scanner.nextLine();
         if (input2.equals("y")) {
-            orderService.ChooseFromMenu(order);
+            orderService.chooseFromMenu(order);
             pickupTime = PickupTimeCalculator.CalculatePickupTime(order);
             order.setPickupTime(pickupTime.format(formatter));
         }
 
         // Finalize the order and export it as JSON
-        printOrder(order.getUser(), order);
-        System.out.println("You are now ready to order. Press any button to continue. Your order will be exported as JSON.");
-        scanner.nextLine();
-        JsonService.fileWriter(order);
-        System.exit(0);
+        printUser(order.getUser(), order);
+        printOrder(order);
+        System.out.println("Are you sure you want to place the order? y/n");
+        String input3 = scanner.nextLine();
+        if (input3.equals("y")) {
+            System.out.println("Thank you for ordering with us. Press any button to continue.");
+            scanner.nextLine();
+            JsonService.fileWriter(order);
+        } else {
+            System.out.println("Your order has been cancelled.\nWe hope you have enjoyed your stay.");
+        }
     }
 
-
-    // Method to print order details
-    private void printOrder(User user, Order order) {
+    public void printUser(User user, Order order) {
         System.out.println("User ID: " + user.getUserID() + "\nName: " + user.getFirstName() + " " + user.getLastName() + "\nStreet and house number: " + user.getAddressLine1() + "\nPostcode and city: " + user.getAddressLine2() + "\nEmail: " + user.getEmail() + "\nPhone number: " + user.getPhoneNumber());
         System.out.println("----------------------------------------------------------------");
+
+
+    }
+    // Method to print order details
+    public void printOrder(Order order) {
         System.out.println("Order information: ");
         System.out.println("Order time: " + order.getOrderTime());
 
-        printBasket(order);
+        orderService.printBasket(order);
 
         System.out.println("Earliest pickup time (depending on availability of the printer): " + order.getPickupTime());
         System.out.println("------------------------------------------------------------------");
@@ -95,15 +106,7 @@ public class CheckoutService {
 
 
 
-    public void printBasket(Order order) {
-        System.out.println("ID  |  Product name               | Amount      ");
-        order.getOrderItems().forEach(o -> {
-            String formattedId = String.format("%-6s", "(" + o.getItem().getProductID() + ")");
-            String formattedName = String.format("%-30s", o.getItem().getProductName());
-            String formattedQuantity = String.format("%-10s", o.getQuantity());
-            System.out.println(formattedId + " " + formattedName + formattedQuantity);
-        });
-    }
+
 
 
 }

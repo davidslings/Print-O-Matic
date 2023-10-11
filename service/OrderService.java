@@ -1,10 +1,11 @@
 package service;
 
 import csvLoader.LoadCSV;
-import pojo.*;
+import pojo.Item;
+import pojo.Order;
+import pojo.OrderQuant;
+import pojo.ProductCatalog;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 import static Constants.MenuChoices.*;
@@ -19,8 +20,8 @@ public class OrderService {
     // Method to add an order item to an order
     public void addOrderItem(Integer item, Integer quantity, Order order) {
         ProductCatalog productCatalog = new ProductCatalog(LoadCSV.readItemsFromCSV());
-        OrderQuant orderQuant1 = new OrderQuant(quantity, new Item(productCatalog.getProduct(item)));
-        order.addOrderItem(orderQuant1);
+        OrderQuant orderQuant = new OrderQuant(quantity, new Item(productCatalog.getProduct(item)));
+        order.addOrderItem(orderQuant);
     }
 
     // Method to remove an order item from an order
@@ -37,7 +38,7 @@ public class OrderService {
 
 
     // Method to choose items from a menu and build an order
-    public void ChooseFromMenu(Order order) {
+    public void chooseFromMenu(Order order) {
 
         int itemChoice;
         int quantity;
@@ -53,6 +54,7 @@ public class OrderService {
                 quantity = amountValidator();
                 scanner.nextLine();
                 addOrderItem(itemChoice, quantity, order);
+                printBasket(order);
             } else if (input.toUpperCase().equals(REMOVE.toString())) {
                 if (order.getOrderItems().isEmpty()) {
                     System.out.println("You have not chosen any items.");
@@ -73,7 +75,12 @@ public class OrderService {
                 } catch (ArrayIndexOutOfBoundsException e) {
                     System.out.println("Invalid input, please choose one of the options");
                 }
+                printBasket(order);
             } else if (input.toUpperCase().equals(CHECKOUT.toString())) {
+                if (order.getOrderItems().isEmpty()) {
+                    System.out.println("Your basket is empty.");
+                    continue;
+                }
                 return;
             }
         }
@@ -104,5 +111,17 @@ public class OrderService {
             scanner.next();
         }
         return scanner.nextInt();
+    }
+
+    public void printBasket(Order order) {
+        System.out.println("ID  |  Product name               | Amount    | Price  ");
+        order.getOrderItems().forEach(o -> {
+            String formattedId = String.format("%-6s", "(" + o.getItem().getProductID() + ")");
+            String formattedName = String.format("%-29s", o.getItem().getProductName());
+            String formattedQuantity = String.format("%-12s", o.getQuantity());
+            double priceItem = o.getItem().getPrice()*o.getQuantity();
+            String formattedPrice = String.format("%-11s", priceItem);
+            System.out.println(formattedId + " " + formattedName + formattedQuantity + formattedPrice);
+        });
     }
 }

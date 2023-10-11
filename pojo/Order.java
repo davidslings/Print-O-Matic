@@ -1,5 +1,6 @@
 package pojo;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Order {
@@ -18,6 +19,10 @@ public class Order {
         this.user = user;
     }
 
+    public Order(User user) {
+        this.orderItems = new ArrayList<>();
+        this.user = user;
+    }
 
     public List<OrderQuant> getOrderItems() {
         return orderItems;
