@@ -6,7 +6,6 @@ import pojo.ProductCatalog;
 import pojo.User;
 
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -75,29 +74,11 @@ public class MenuService {
     }
     // Method to flow user through application
     public void userFlow(Order order) {
-        printCatalog();
+        orderService.printCatalog();
         orderService.chooseFromMenu(order);
         checkoutService.checkoutService(order);
     }
 
-    // Method to print the product catalog
-    public void printCatalog() {
-        ProductCatalog productCatalog = new ProductCatalog(LoadCSV.readItemsFromCSV());
-        System.out.println("ID  |  Product name               | Price (€) | Production time (hours)");
-        System.out.println("-------------------------------------------------------------");
 
-        productCatalog.getProductCatalog().forEach((id, product) -> {
-            // Use String formatting to align the columns
-            String formattedId = String.format("%-4s", "(" + product.getProductID() + ")");
-            String formattedName = String.format("%-28s", product.getProductName());
-            String formattedPrice = String.format("%-10s", product.getPrice());
-            String formattedProductionTime = String.format("%-21s", product.getProductionTime());
-
-            // Print the formatted data as a row in the table
-            System.out.println(formattedId + "| " + formattedName + "| " + formattedPrice + "| " + formattedProductionTime);
-        });
-
-        System.out.println("----------------------------------------------------------\n");
-    }
 
 }

@@ -3,9 +3,7 @@ package service;
 import pojo.Order;
 import pojo.WorkWeek;
 
-import java.time.DayOfWeek;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 
 public class PickupTimeCalculator {
 
@@ -15,7 +13,7 @@ public class PickupTimeCalculator {
      * and adding the hours of production for the current order to it.
      *
      * @param order
-     * @return
+     * @return LocalDateTime containing the actual pickup time
      */
     public static LocalDateTime CalculatePickupTime(Order order) {
 

@@ -36,7 +36,7 @@ public class CheckoutService {
         order.setPickupTime(pickupTime.format(formatter));
 
         // Print the order details
-        printUser(order.getUser(), order);
+        printUser(order.getUser());
         printOrder(order);
 
         // Prompt the user to edit their user information
@@ -46,7 +46,7 @@ public class CheckoutService {
             // Update user information if desired
             order.setUser(userService.createUser(order.getUser()));
             // Print the updated order details
-            printUser(order.getUser(), order);
+            printUser(order.getUser());
             printOrder(order);
         }
 
@@ -60,7 +60,7 @@ public class CheckoutService {
         }
 
         // Finalize the order and export it as JSON
-        printUser(order.getUser(), order);
+        printUser(order.getUser());
         printOrder(order);
         System.out.println("Are you sure you want to place the order? y/n");
         String input3 = scanner.nextLine();
@@ -73,7 +73,7 @@ public class CheckoutService {
         }
     }
 
-    public void printUser(User user, Order order) {
+    public void printUser(User user) {
         System.out.println("User ID: " + user.getUserID() + "\nName: " + user.getFirstName() + " " + user.getLastName() + "\nStreet and house number: " + user.getAddressLine1() + "\nPostcode and city: " + user.getAddressLine2() + "\nEmail: " + user.getEmail() + "\nPhone number: " + user.getPhoneNumber());
         System.out.println("----------------------------------------------------------------");
 
