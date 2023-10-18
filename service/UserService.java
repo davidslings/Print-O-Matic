@@ -6,7 +6,7 @@ import java.util.Scanner;
 
 public class UserService {
 
-    private Scanner scanner;
+    private final Scanner scanner;
 
     public UserService() {
         this.scanner = new Scanner(System.in);

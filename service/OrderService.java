@@ -11,7 +11,7 @@ import java.util.Scanner;
 import static Constants.MenuChoices.*;
 
 public class OrderService {
-    private Scanner scanner;
+    private final Scanner scanner;
     private final ProductCatalog PRODUCT_CATALOG = new ProductCatalog(LoadCSV.readItemsFromCSV());
     public OrderService() {
         this.scanner = new Scanner(System.in);

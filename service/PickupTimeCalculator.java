@@ -12,7 +12,7 @@ public class PickupTimeCalculator {
      * This method calculates the pickup time by taking the previous pickup time
      * and adding the hours of production for the current order to it.
      *
-     * @param order
+     * @param order uses the current order to calculate the pickup time.
      * @return LocalDateTime containing the actual pickup time
      */
     public static LocalDateTime CalculatePickupTime(Order order) {
@@ -34,7 +34,7 @@ public class PickupTimeCalculator {
         - the closing time on the day of the previous pickup time
         */
 
-        int hourCount = day.getHour();
+        int hourCount = day.getHour(); // NullPointerException is handled on line 29 with the ternary operator.
         int openingTime = workWeek.getCurrentDayOpeningTime(day.getDayOfWeek());
         int closingTime = workWeek.getCurrentDayClosingTime(day.getDayOfWeek());
 

@@ -1,8 +1,6 @@
 package service;
 
-import csvLoader.LoadCSV;
 import pojo.Order;
-import pojo.ProductCatalog;
 import pojo.User;
 
 import java.io.FileNotFoundException;
