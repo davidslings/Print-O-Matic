@@ -5,6 +5,7 @@ The application enables users to
 - create a user account
 - add items to the basket
 - review the order information
+- review old orders
 - edit user and/or shopping cart info
 - calculate pickup time.
 - export order to json file
